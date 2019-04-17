@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="ie=edge, width=device-width, initial-scale=1.0" http-equiv="X-UA-Compatible">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo+2">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <title>Exercises for {{ lessons.title }}</title>
+</head>
+
+<body>
+    <!-- WEBPAGE HEADER-->
+    <div class="header navbar-fixed">
+        <nav class="nav-wraper black" role="navigation">
+            <div class="nav-wrapper">
+                <a id="logo-container" href="{% url 'homepage' %}" class="brand-logo logo"><i class="material-icons">code</i> CS Learning & Tutorial</a>
+                               
+            </div>
+        </nav>
+    </div>
+
+    
+
+    <!-- WEBPAGE CONTENT -->
+    <div id="wrapper-general">
+        <h1 class="bubbles" id="prob-h1"><i class="large material-icons" style="vertical-align:middle;">chevron_left</i>Exercises for {{ lessons.title }}<i class="large material-icons" style="vertical-align: middle;">chevron_right</i></h1>
+    </div>
+    <div id="wrapper">
+        <div class="row">
+            <div class="container">
+                <ul id="slide-out" class="sidenav">
+                    <li>
+                    <a href="#" class="btn-floating btn-large waves-effect waves-light sidenav-close right-align white" style="margin-left:20px;"><i class="small material-icons" style="color:#ff7043; margin-left:16px; vertical-align: middle; margin-top: 3px;">close</i></a>
+                    </li>
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header">
+                                <i class="large material-icons" style="color:white;">desktop_windows</i>
+                                <a class="waves-effect">
+                                    <span style="font-size:22px; color: white;" id="side"><b>Tutorials</b></span>
+                                </a>
+                                <a href="#!"><i class="small material-icons right" style="color: white;">keyboard_arrow_down</i></a>
+                            </div>
+                            <div class="collapsible-body">
+                                <ul>
+                                    {% for course in courses %}
+                                    <li><a class="waves-effect" href="{% url 'index' course.id %}" style="color:white;">{{ course.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                            
+                        <li>
+                            <div class="collapsible-header">
+                                <i class="large material-icons" style="color:white;">layers</i>
+                                <a class="waves-effect">
+                                    <span style="font-size:22px; color: white;" id="side"><b>Exercises</b></span>
+                                </a>
+                                <a href="#!"><i class="small material-icons right" style="color:white;">keyboard_arrow_down</i></a>
+                            </div>
+                            <div class="collapsible-body">
+                                <ul>
+                                    {% for course in courses %}
+                                    <li><a class="waves-effect" href="{% url 'exercise' course.id %}" style="color:white;"> {{ course.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header">
+                                <i class="large material-icons" style="color:white;">library_books</i>
+                                <a class="waves-effect">
+                                    <span style="font-size:22px; color: white;" id="side"><b>References</b></span>
+                                </a>
+                                <a href="#!"><i class="small material-icons right" style="color:white;">keyboard_arrow_down</i></a>
+                            </div>
+                            <div class="collapsible-body">
+                                <ul>
+                                    {% for course in courses %}
+                                    <li><a class="waves-effect" href="{% url 'reference' course.id %}" style="color:white;"> {{ course.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </ul>
+                <a href="#" data-target="slide-out" class="waves-effect waves-light btn-large sidenav-trigger red" ><i id="redbutton" class="material-icons left">menu</i>Menu out the <br></a>
+            </div>
+        </div>
+    </div>
+
+
+    
+      
+    <div id="wrapper-general">
+        <table> 
+            {% for exercise in exercises %}
+            <div class="card small" style="background-color:cornflowerblue; height: 5cm; width: 10cm; float: left; margin: 10px; padding: 20px;">
+                <a href="{% url 'content' exercise.id %}" class="left-align" style="color:white; padding-left: 30px;">{{ exercise.title }}</a>
+                <br>
+                <i class="large material-icons" id="exercisesymbol">storage</i>
+            </div>
+            {% endfor %}
+        </table>         
+    </div>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+          <i class="large material-icons">touch_app</i>
+        </a>
+        <ul>
+          <li><a href="{% url 'homepage' %}" class="btn-floating red pulse"><i class="material-icons">home</i></a></li>
+          <li><a href="javascript:history.go(-1);" class="btn-floating green"><i class="material-icons">keyboard_backspace</i></a></li>
+        </ul>
+    </div>
+
+<!--script-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'js/materialize.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.sidenav').sidenav();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems, options);
+    });
+// Or with jQuery
+    $(document).ready(function(){
+        $('.collapsible').collapsible();
+    });
+    (function($) {
+        $(function() {
+            $(".sidenav").sidenav();
+//Init Slider
+
+            $(".slider").slider({
+            fullWidth: true,
+            indicators: false,
+            height: 500
+            });
+//Init Scrollspy
+            $(".scrollspy").scrollSpy({});
+        }); // end of document ready
+    })(jQuery); // end of jQuery name space
+
+    document.addEventListener('DOMContentLoaded', function() {
+var elems = document.querySelectorAll('.fixed-action-btn');
+var instances = M.FloatingActionButton.init(elems, {direction:'left'});
+});
+
+// Or with jQuery
+
+$(document).ready(function(){
+$('.fixed-action-btn').floatingActionButton();
+});
+
+jQuery(document).ready(function($){
+
+// Define a blank array for the effect positions.
+var bArray = [];
+// Define a size array, this will be used to vary bubble sizes
+var sArray = [4,6,8,10];
+
+// Push the header width values to bArray
+for (var i = 0; i < $('.bubbles').width(); i++) {
+ bArray.push(i);
+}
+
+// Function to select random array element
+// Used within the setInterval a few times
+function randomValue(arr) {
+ return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// setInterval function used to create new bubble every 350 milliseconds
+setInterval(function(){
+  
+ // Get a random size, defined as variable so it can be used for both width and height
+ var size = randomValue(sArray);
+ // Left value is set through getting a random value from bArray
+ $('.bubbles').append('<div class="individual-bubble" style="left: ' + randomValue(bArray) + 'px; width: ' + size + 'px; height:' + size + 'px;"></div>');
+  
+ // Animate each bubble to the top (bottom 100%) and reduce opacity as it moves
+ $('.individual-bubble').animate({
+     'bottom': '100%',
+     'opacity' : '-=0.9'
+ }, 3000, function(){
+     $(this).remove()
+ }
+ );
+
+
+}, 350);
+
+});
+    
+</script>    
+
+</body>
+
+</html>

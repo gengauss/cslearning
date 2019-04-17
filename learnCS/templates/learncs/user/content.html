@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0 ie=edge" http-equiv="X-UA-Compatible">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo+2">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link href="../../../static/css/default.min.css" rel="stylesheet" type="text/css">
+    <script src="../../../static/js/hightlight.min.js"></script>
+    <title>Exercises</title>
+</head>
+
+<body id="home">
+    <!--WEBPAGE HEADER-->
+    <div class="header navbar-fixed header-font">
+        <nav class="nav-wraper black" role="navigation">
+            <div class="nav-wrapper">
+                <a id="logo-container" href="{% url 'homepage' %}" class="brand-logo logo" style="text-decoration: none;">
+                    <i class="material-icons">code</i> CS Learning & Tutorial
+                </a>                
+            </div>
+        </nav>
+    </div>
+
+    <!--WEBPAGE CONTENT-->
+    <div id="wrapper-general" style="margin: 30px;">
+        <h2>{{ exercises.title | linebreaksbr }}</h2>
+        <p style="font-size:20px; width: 80%; padding: auto;">{{ exercises.problem | linebreaksbr }}</p>
+        <button data-toggle="collapse" data-target="#solution" class="btn btn-success">Show Answer</button>
+        <div id="solution" class="collapse">
+            <pre><code data-language="python">
+                    <script>hljs.initHighlightingOnLoad();</script>
+            <p style="font-size:20px; width: 90%; padding: auto;">{{ exercises.solution | linebreaksbr }}</p>
+            </code>
+            </pre>
+        </div>
+    </div>
+</body>
+<div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+          <i class="large material-icons">touch_app</i>
+        </a>
+        <ul>
+          <li><a href="{% url 'homepage' %}" class="btn-floating red pulse"><i class="material-icons">home</i></a></li>
+          <li><a href="javascript:history.go(-1);" class="btn-floating green pulse"><i class="material-icons">keyboard_backspace</i></a></li>
+        </ul>
+    </div>
+
+<!--SCRIPT-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../../static/js/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>     
+<script src="{% static 'js/materialize.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script type="text/javascript" src="../../../static/js/wowslider.js"></script>
+<script type="text/javascript" src="../../../static/js/script.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.sidenav').sidenav();
+    });
+
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     var elems = document.querySelectorAll('.collapsible');
+    //     var instances = M.Collapsible.init(elems, options);
+    // });
+// Or with jQuery
+    $(document).ready(function(){
+        $('.collapsible').collapsible();
+    });
+    (function($) {
+        $(function() {
+            $(".sidenav").sidenav();
+//Init Slider
+
+            $(".slider").slider({
+            fullWidth: true,
+            indicators: false,
+            height: 800
+            });
+//Init Scrollspy
+            $(".scrollspy").scrollSpy({});
+        }); // end of document ready
+    })(jQuery); // end of jQuery name space
+
+
+    $(document).ready(function(){
+        $('.carousel').carousel();
+    });
+// Or with jQuery
+
+$(document).ready(function(){
+$('.carousel').carousel();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+var elems = document.querySelectorAll('.fixed-action-btn');
+var instances = M.FloatingActionButton.init(elems, {direction:'left'});
+});
+
+// Or with jQuery
+
+$(document).ready(function(){
+$('.fixed-action-btn').floatingActionButton();
+});
+
+jQuery(document).ready(function($){
+
+// Define a blank array for the effect positions. This will be populated based on width of the title.
+var bArray = [];
+// Define a size array, this will be used to vary bubble sizes
+var sArray = [4,6,8,10];
+
+// Push the header width values to bArray
+for (var i = 0; i < $('.bubbles').width(); i++) {
+ bArray.push(i);
+}
+
+// Function to select random array element
+// Used within the setInterval a few times
+function randomValue(arr) {
+ return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// setInterval function used to create new bubble every 350 milliseconds
+setInterval(function(){
+  
+ // Get a random size, defined as variable so it can be used for both width and height
+ var size = randomValue(sArray);
+ // New bubble appeneded to div with it's size and left position being set inline
+ // Left value is set through getting a random value from bArray
+ $('.bubbles').append('<div class="individual-bubble" style="left: ' + randomValue(bArray) + 'px; width: ' + size + 'px; height:' + size + 'px;"></div>');
+  
+ // Animate each bubble to the top (bottom 100%) and reduce opacity as it moves
+ // Callback function used to remove finsihed animations from the page
+ $('.individual-bubble').animate({
+     'bottom': '100%',
+     'opacity' : '-=0.7'
+ }, 3000, function(){
+     $(this).remove()
+ }
+ );
+
+
+}, 350);
+
+});
+    
+</script>
+
+</html>

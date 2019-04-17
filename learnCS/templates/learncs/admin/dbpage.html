@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" style="
+margin-top: 20px;
+margin-left: 20px;
+margin-right: 20px;
+margin-bottom: 20px;
+">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <title>Admin Database</title>
+</head>
+<body>
+    <a href="{% url 'homepage' %}"><button class="w3-button w3-ripple w3-black">Homepage</button></a>
+    <a href="{% url 'fulldb' %}"><button class="w3-button w3-ripple w3-yellow">Database List</button></a>
+    <h1 class="w3-xlarge">Admin Database</h1>
+    <p>Please choose the database to be modified.</p>
+    <form action="{% url 'admindb' %}" method="POST" name="dbchoice">
+        {% csrf_token %}
+        <select name="dbname" id="dbname">
+            <option value="" selected>-</option>
+            <option value="course">Course</option>
+            <option value="exercise">Exercise</option>
+            <option value="lesson">Lesson</option>
+            <option value="reference">Reference</option>
+        </select>
+        <button type="submit" class="w3-btn w3-black">Continue</button>
+    </form>
+    
+
+    {% if choice == 'course' %}
+    <p>Course</p>
+    <table class="w3-table-all">
+        <tr class="w3-red">
+            <th>ID</th>
+            <th>Title</th>
+            <th> </th>
+        </tr>
+        {% for d in data %}
+        <tr>
+            <td>{{d.id}}</td>
+            <td>{{d.title}}</td>
+            <td>
+                <form action="{% url 'dbDel_C' d.id %}" method="post">
+                {% csrf_token %}
+                    <input type="submit" name="dbDel_c" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <p>Add New Data</p>
+    
+    <form action="{% url 'dbAdd' %}" method="post" name="dbAdd_c">
+    {% csrf_token %}
+    <table class="w3-table-all">
+        <tr class="w3-yellow">
+            <th>ID</th>
+            <th>Title</th>
+            <th> </th>
+        </tr>
+        <tr>
+            <td><input type="number" name="dbAdd_cId" id="c_id"></td>
+            <td><input type="text" name="dbAdd_cTitle" id="c_title"></td>
+            <td><input type="submit" name="dbAdd_c" value="Add"></td>
+        </tr>
+    </table>
+    </form>
+
+    {% elif choice == 'lesson' %}
+    <p>Lesson</p>
+    <table class="w3-table-all">
+        <tr class="w3-orange">
+            <th width="10%">ID</th>
+            <th width="15%">Title</th>
+            <th width="60%">Content</th>
+            <th>Course ID</th>
+            <th> </th>
+        </tr>
+        {% for d in data %}
+        <tr>
+            <td>{{d.id}}</td>
+            <td>{{d.title}}</td>
+            <td>{{d.content}}</td>
+            <td>{{d.course_id}}</td>
+            <td>
+                <form action="{% url 'dbDel_L' d.id %}" method="post">
+                {% csrf_token %}
+                    <input type="submit" name="dbDel_l" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <form action="{% url 'dbAdd' %}" method="post" name="dbAdd_l">
+        {% csrf_token %}
+        <table class="w3-table-all">
+            <tr class="w3-yellow">
+                <th>ID</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Course ID</th>
+                <th> </th>
+            </tr>
+            <tr>
+                <td><input type="number" name="dbAdd_lId" id="l_id"></td>
+                <td><input type="text" name="dbAdd_lTitle" id="l_title"></td>
+                <td><input type="text" name="dbAdd_lContent" id="l_content"></td>
+                <td><input type="number" name="dbAdd_lCId" id="l_cid"></td>
+                <td><input type="submit" name="dbAdd_l" value="Add"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% elif choice == 'exercise' %}
+    <p>Exercise</p>
+    <table class="w3-table-all">
+        <tr class="w3-green">
+            <th>ID</th>
+            <th width="10%">Title</th>
+            <th width="50%">Problem</th>
+            <th width="20%">Solution</th>
+            <th>Course ID</th>
+            <th>Lesson ID</th>
+            <th> </th>
+        </tr>
+        {% for d in data %}
+        <tr>
+            <td>{{d.id}}</td>
+            <td>{{d.title}}</td>
+            <td>{{d.problem}}</td>
+            <td>{{d.solution}}</td>
+            <td>{{d.course_id}}</td>
+            <td>{{d.lesson_id}}</td>
+            <td>
+                <form action="{% url 'dbDel_E' d.id %}" method="post">
+                {% csrf_token %}
+                    <input type="submit" name="dbDel_e" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <form action="{% url 'dbAdd' %}" method="post" name="dbAdd_e">
+        {% csrf_token %}
+        <table class="w3-table-all">
+            <tr class="w3-yellow">
+                <th>ID</th>
+                <th>Title</th>
+                <th>Problem</th>
+                <th>Solution</th>
+                <th>Course ID</th>
+                <th>Lesson ID</th>
+                <th> </th>
+            </tr>
+            <tr>
+                <td><input type="number" name="dbAdd_eId" id="e_id"></td>
+                <td><input type="text" name="dbAdd_eTitle" id="e_title"></td>
+                <td><input type="text" name="dbAdd_eProb" id="e_prob"></td>
+                <td><input type="text" name="dbAdd_eSol" id="e_sol"></td>
+                <td><input type="number" name="dbAdd_eCId" id="e_cid"></td>
+                <td><input type="number" name="dbAdd_eLId" id="e_lid"></td>
+                <td><input type="submit" name="dbAdd_e" value="Add"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% elif choice == 'reference' %}
+    <p>Reference</p>
+    <table class="w3-table-all">
+        <tr class="w3-blue">
+            <th>ID</th>
+            <th>Title</th>
+            <th>Link</th>
+            <th>Course ID</th>
+            <th>Lesson ID</th>
+            <th> </th>
+        </tr>
+        {% for d in data %}
+        <tr>
+            <td>{{d.id}}</td>
+            <td>{{d.title}}</td>
+            <td>{{d.link}}</td>
+            <td>{{d.course_id}}</td>
+            <td>{{d.lesson_id}}</td>
+            <td>
+                <form action="{% url 'dbDel_R' d.id %}" method="post">
+                {% csrf_token %}
+                    <input type="submit" name="dbDel_r" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <form action="{% url 'dbAdd' %}" method="post" name="dbAdd_r">
+        {% csrf_token %}
+        <table class="w3-table-all">
+            <tr class="w3-yellow">
+                <th>ID</th>
+                <th>Title</th>
+                <th>Link</th>
+                <th>Course ID</th>
+                <th>Lesson ID</th>
+                <th> </th>
+            </tr>
+            <tr>
+                <td><input type="number" name="dbAdd_rId" id="r_id"></td>
+                <td><input type="text" name="dbAdd_rTitle" id="r_title"></td>
+                <td><input type="text" name="dbAdd_rLink" id="r_link"></td>
+                <td><input type="number" name="dbAdd_rCId" id="r_cid"></td>
+                <td><input type="number" name="dbAdd_rLId" id="r_lid"></td>
+                <td><input type="submit" name="dbAdd_r" value="Add"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% else %}
+    <p></p>
+    {% endif %}
+
+    <script>
+        function myFunction() {
+          var x = document.getElementById("Demo");
+          if (x.className.indexOf("w3-show") == -1) {  
+            x.className += " w3-show";
+          } else { 
+            x.className = x.className.replace(" w3-show", "");
+          }
+        }
+    </script>
+    
+</body>
+</html>
